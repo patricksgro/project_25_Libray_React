@@ -1,0 +1,9 @@
+body {
+    font-family: 'Times New Roman', Times, serif !important;
+}
+
+@media (max-width: 775px) {
+    .changePositionImage {
+        margin-left: 20px !important;
+    }
+}
