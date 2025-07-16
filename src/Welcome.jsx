@@ -5,7 +5,7 @@ function Welcome() {
     <>
       {["primary"].map((variant) => (
         <Alert key={variant} variant={variant}>
-          Benvenuto nella tua libreia
+          Benvenuto nella tua libreria
         </Alert>
       ))}
     </>
