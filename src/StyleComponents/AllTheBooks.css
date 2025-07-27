@@ -13,3 +13,8 @@
     border-top: none;
     outline: none;
 }
+
+
+.cursorPointer {
+    cursor: pointer;
+}

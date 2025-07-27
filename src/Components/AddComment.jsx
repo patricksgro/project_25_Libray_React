@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormGroup, Form, Button } from "react-bootstrap";
+import '../StyleComponents/AddComment.css'
 
 function AddComment({ asin }) {
 
     const [datiForm, setDatiForm] = useState({ elementId: asin })
+
+
+    useEffect(() => {
+        if (asin)
+            setDatiForm(prev => ({
+                ...prev,
+                elementId: asin
+            }))
+    }, [asin])
 
     function salvaDati(e) {
         e.preventDefault()
@@ -21,6 +31,7 @@ function AddComment({ asin }) {
                 console.log(data)
             })
     }
+
     const handleChange = (e) => {
         setDatiForm({
             ...datiForm,
@@ -28,16 +39,20 @@ function AddComment({ asin }) {
         })
     }
 
+
+
+    console.log(datiForm)
+
     return (
-        <Form>
+        <Form className="bg-light p-4 borderSolid mt-4">
             <Form.Group className="mb-3" >
-                <Form.Label>Commento</Form.Label>
+                <Form.Label>Commento<span className="text-danger">*</span></Form.Label>
                 <Form.Control type="text"
                     name="comment"
                     onChange={handleChange} />
             </Form.Group>
             <FormGroup>
-                <Form.Label>Valutazione</Form.Label>
+                <Form.Label>Valutazione<span className="text-danger">*</span></Form.Label>
                 <Form.Select aria-label="Default select example"
                     name="rate"
                     onChange={handleChange}>

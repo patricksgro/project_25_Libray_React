@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
-import CommentList from "./CommentList";
-import AddComment from "./AddComment";
+import { Children, createContext, useContext } from "react";
+import { useState, useEffect } from "react"
+import { UseAsin } from "./ContextAsin";
 
-function CommentArea({ asin }) {
+const ContextComment = createContext()
+
+export function CommentsProvider({ children }) {
 
     const [resultsFetchComments, setResultsFetchComments] = useState([])
+    const { selected: asin } = UseAsin()
 
     function fetchComments() {
+
+        if (!asin) return;
+
         fetch(`https://striveschool-api.herokuapp.com/api/books/${asin}/comments`, {
             headers: {
                 "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODVhNWE0YjRlZjFiYzAwMTVkZjVhZDQiLCJpYXQiOjE3NTI4NTk3OTMsImV4cCI6MTc1NDA2OTM5M30.stPsm7uzUvxxHqCqOr1dAXgJJw5twG3bj3qU5-E7Nxg"
@@ -21,20 +27,20 @@ function CommentArea({ asin }) {
     }
 
     useEffect(() => {
-        fetchComments()
+        if (asin) fetchComments()
     }, [asin])
 
-
-
     return (
-        <>
-            <AddComment
-                asin={asin} />
-            <CommentList
-                resultsFetchComments={resultsFetchComments} />
 
-        </>
+        <ContextComment value={{ resultsFetchComments, setResultsFetchComments }}>
+
+            {children}
+
+        </ContextComment>
+
     )
 }
 
-export default CommentArea;
+export function useComments() {
+    return useContext(ContextComment)
+}
