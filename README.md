@@ -8,6 +8,7 @@ Una semplice app React che mostra una lista di libri di un dato genere con card 
 
 ![Screenshot homepage](public/Screenshot_Anteprima_sito_web.png)
 ![Screenshot homepage](public/Screenshot_Anteprima_Responsive.png)
+![Screenshot homepage](public/Screenshot%202025-08-05%20112650.png)
 
 ---
 
