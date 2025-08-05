@@ -1,11 +1,11 @@
-import { Children, createContext, useContext } from "react"
+import { createContext, useContext } from "react"
 import { useState } from "react"
 
 const contextAsin = createContext()
 
 export function AsinProvider({ children }) {
 
-    const [selected, setSelected] = useState()
+    const [selected, setSelected] = useState(null)
 
     return (
         <contextAsin.Provider value={{ selected, setSelected }}>

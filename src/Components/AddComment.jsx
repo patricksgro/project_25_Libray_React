@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { FormGroup, Form, Button } from "react-bootstrap";
 import '../StyleComponents/AddComment.css'
+import CommentAdded from "./CommentAdded";
 
 function AddComment({ asin }) {
 
     const [datiForm, setDatiForm] = useState({ elementId: asin })
+    const [commentDone, setCommentDone] = useState(false)
 
 
     useEffect(() => {
@@ -23,48 +25,60 @@ function AddComment({ asin }) {
             body: JSON.stringify(datiForm),
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODVhNWE0YjRlZjFiYzAwMTVkZjVhZDQiLCJpYXQiOjE3NTI4NTk3OTMsImV4cCI6MTc1NDA2OTM5M30.stPsm7uzUvxxHqCqOr1dAXgJJw5twG3bj3qU5-E7Nxg'
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODVhNWE0YjRlZjFiYzAwMTVkZjVhZDQiLCJpYXQiOjE3NTQyMDk2MDMsImV4cCI6MTc1NTQxOTIwM30.XjBDrz0lCp_MxlBNpFMZmEdyRdJFgYZWiYeiGfI6L5k'
             }
         })
             .then(response => response.json())
             .then(data => {
                 console.log(data)
             })
+            .catch(error => console.log(error))
+        setCommentDone(true)
+
     }
 
     const handleChange = (e) => {
         setDatiForm({
             ...datiForm,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         })
     }
 
 
-
-    console.log(datiForm)
-
     return (
-        <Form className="bg-light p-4 borderSolid mt-4">
-            <Form.Group className="mb-3" >
-                <Form.Label>Commento<span className="text-danger">*</span></Form.Label>
-                <Form.Control type="text"
-                    name="comment"
-                    onChange={handleChange} />
-            </Form.Group>
-            <FormGroup>
-                <Form.Label>Valutazione<span className="text-danger">*</span></Form.Label>
-                <Form.Select aria-label="Default select example"
-                    name="rate"
-                    onChange={handleChange}>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </Form.Select>
-            </FormGroup>
-            <Button onClick={salvaDati}>Salva</Button>
-        </Form>
+        <>
+            <Form className="bg-light p-4 borderSolid mt-4" onSubmit={salvaDati}>
+                <Form.Group className="mb-3" >
+                    <Form.Label>Commento<span className="text-danger">*</span> (Inserire almeno 15 caratteri)</Form.Label>
+                    <Form.Control
+                        required
+                        minLength={15}
+                        type="text"
+                        name="comment"
+                        onChange={handleChange} />
+                </Form.Group>
+                <FormGroup>
+                    <Form.Label>Valutazione<span className="text-danger">*</span></Form.Label>
+                    <Form.Select
+                        required
+                        aria-label="Default select example"
+                        name="rate"
+                        onChange={handleChange}>
+                        <option value="">Scegli la tua valutazione...</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </Form.Select>
+                </FormGroup>
+                <Button className="mt-3 bg-success" type="submit">Salva</Button>
+            </Form>
+
+            {
+                commentDone && <CommentAdded onClose={() => setCommentDone(false)} />
+            }
+        </>
     )
 }
 export default AddComment;

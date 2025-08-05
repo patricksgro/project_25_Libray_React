@@ -1,4 +1,4 @@
-import { Children, createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 import { useState, useEffect } from "react"
 import { UseAsin } from "./ContextAsin";
 
@@ -32,11 +32,11 @@ export function CommentsProvider({ children }) {
 
     return (
 
-        <ContextComment value={{ resultsFetchComments, setResultsFetchComments }}>
+        <ContextComment.Provider value={{ resultsFetchComments, setResultsFetchComments }}>
 
             {children}
 
-        </ContextComment>
+        </ContextComment.Provider>
 
     )
 }
